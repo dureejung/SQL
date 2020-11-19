@@ -1,0 +1,24 @@
+1. Employees 테이블의 manager_id 컬럼에는 해당 사원의 상관의 사번이 저장되어
+있습니다 . 따라서 가장 높은 직급인 사장은 이 컬럼에 값이 들어 있지 않습니다 . 사장을
+조회하는 쿼리를 작성해 보세요 .
+select * from employees
+where manager_id is null;
+
+2. employees 테이블에는 인센티브 값이 있는 commission_pct 컬럼이 있습니다 . 그런데
+commission_pct 를 모든 사원이 받는 것은 아니어서 이 컬럼 값이 null 인 건이 존재합니다 .
+Null인 건은 salary 만 , null 이 아닌 건은 salary + (salary * commission_pct ) 로 처리하는
+Case 표현식을 작성해 보세요 .
+select employee_id, first_name,last_name,
+case when commission_pct is null then salary
+when commission_pct is not null then salary+(salary*commission_pct)
+end salary
+from employees;
+
+3. 다음 문장을 실행하면 조회되는 로우는 몇 건일까요?
+SELECT employee_id , first_name , last_name
+FROM employees
+WHERE ROWNUM < 1;
+-0건
+
+4. LOCATIONS 테이블에서 도시 이름이 S 로 시작하는 건을 도시이름으로 내림차순 정렬해
+조회하는 문장을 작성하시오
