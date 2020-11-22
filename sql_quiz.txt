@@ -21,4 +21,30 @@ WHERE ROWNUM < 1;
 -0건
 
 4. LOCATIONS 테이블에서 도시 이름이 S 로 시작하는 건을 도시이름으로 내림차순 정렬해
-조회하는 문장을 작성하시오
+조회하는 문장을 작성하시오.
+select city from locations
+where city like'S%'
+order by city desc;
+
+5. LOCATIONS 테이블에서 미국에 있는 사무실 (country_id 값이 US) 에 우편물을 보내려고
+주소를 작성하고자 합니다 . 다음과 같은 형태로 결과가 조회되도록 문장을 작성하시오
+(우편번호-거리명-도시명-주명-국가코드)
+select country_id,
+case when country_id='US' then postal_code||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id
+end 주소
+from locations
+where country_id='US';
+
+6. 5 번 문제에서 미국이 아닌 영국 country_id 값이 UK) 에 있는 사무실 주소를 조회한
+결과인데 , 첫 번째 건의 우편번호가 없습니다 . 우편번호가 없는 건을 제외하고 조회하는
+문장을 작성하시오 .
+select country_id,
+case when country_id='UK' then postal_code||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id
+end 주소
+from locations
+where country_id='UK' and postal_code is not null;
+
+7. 6 번 문제에서 우편번호가 없는 건을 제외하는 대신 우편번호가 없는 건은 우편번호를
+'99999' 로 나오도록 조회하는 문장을 작성하시오 .
+
+
