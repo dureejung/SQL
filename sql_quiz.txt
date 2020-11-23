@@ -1,3 +1,86 @@
+1. 1.SQL 의 종류로는 DDL, DML, TCL, DCL 이 있는데 이 중 실제로 데이터를 가공하고
+처리하는 역할을 수행하는 문장은 DML 문이다 .
+-DML은 데이터를 조회, 입력, 수정, 삭제할 수 있는 데이터 조작어.
+DDL은 데이터베이스 객체들을 생성 , 수정 , 삭제 하며 DML 은 실제로 데이터를 조회, 입력 ,
+수정, 삭제하는 역할을 한다.
+
+2. 2. 데이터를 삭제하는 방법에는 2 가지가 있다 . 하나는 TRUNCATE TABLE 문이고 다른
+하나는 DELETE 문이다 . 이 중 데이터를 삭제한 뒤 복구할 수 없는 문장은 TRUNCATE
+TABLE 문이다 .
+-0. TRUNCATE TABLE 문은 ddl로 해당 테이블 데이터 전체를 삭제하며 복구할 수 없다.
+DELETE문은 dml로 특정 조건에 맞는 데이터만 삭제하며 rollback으로 삭제 이전 상태로 복구가 가능하다.
+
+3. CREATE TABLE 문을 사용해 테이블을 생성한 후 테이블에 있는 컬럼의 데이터 형을
+수정하려면 ALTER COLUMN 문을 사용해야 한다 .
+-x. 테이블에 있는 컬럼의 데이터 형을 수정하려면 ALTER TABLE문으로 테이블을 지정한 후, MODIFY로 컬럼을 수정해야 한다.
+alter column문은 존재하지 않음
+
+4. 다음 내용을 보고 country_test 란 테이블을 만들어 보세요 .
+create table country_test(
+country_id number,
+country_name varchar2(100) not null
+);
+alter table country_test
+add constraints country_test_pk primary key(country_id);
+
+5. country_test 테이블에 REGION_ID 란 컬럼을 추가하는 문장을 작성하세요 .
+(REGION_ID :숫자형 , NULL 허용 컬럼)
+alter table country_test
+add region_id number;
+
+6. country_test 테이블의 REGION_ID 는 NULL 허용 컬럼입니다 . 이를 NOT NULL
+컬럼으로 변경하는 문장을 작성하세요 .
+alter table country_test
+modify region_id number not null;
+(number 안써도 됨)
+
+7. country_test 테이블을 삭제하는 (제거하는) 문장을 작성해 보세요 .
+drop table country_test;
+
+1. SELECT문은 테이블에 있는 데이터를 조회하는 SQL 문장으로 특정 조건에 맞는
+데이터를 선별하거나 특정 컬럼 별로 정렬해 데이터를 조회할 수 있다 .
+-0.
+SELECT문은 테이블에 저장된 데이터를 조회하는 SQL 문이다 .
+SELECT 문은 크게 SELECT, FROM, WHERE, ORDER BY 절로 구성되어 있으며
+특정 조건에 맞는 데이터를 선별하는 것은 where절, 특정 컬럼 별로 정렬하는 것은 order by절을 사용한다.
+
+2. 다음 문장의 WHERE 절에서 OR 연산자를 AND 로 바꾸면 결과는 어떻게 될까요?
+결과값이 나오지 않음. 연봉이 2400이하이면서 동시에 20000이상일 수는 없기 때문.
+
+3. SELECT 문에서 데이터를 정렬해 보려면 ORDER BY 절을 사용하는데 , 기본적인 정렬
+방법은 내림차순이다.
+기본적인 정렬방법은 오름차순 정렬이기 때문에 ASC는 생략할 수 있으며, 내림차순으로 정렬하고 싶을 경우 반드시 DESC를 써야 한다.
+
+4. LOCATIONS 테이블은 부서의 주소 관련 데이터가 담겨 있습니다 . 이 테이블의 컬럼과
+데이터 형 타입 ), 각 컬럼의 NULL 허용 여부를 찾아 정리해 보세요 .
+desc locations;
+
+이름                                널?                     유형
+
+LOCATION_ID              NOT NULL             NUMBER(4)
+STREET_ADDRESS                                     VARCHAR2(40)
+POSTAL_CODE                                          VARCHAR2(12)
+CITY                             NOT NULL            VARCHAR2(30)
+STATE_PROVINCE                                      VARCHAR2(25)
+COUNTRY_ID                                            CHAR(2)
+
+5.  LOCATIONS 테이블에서 LOCATION_ID 값이 2000 보다 크거나 같고 3000 보다 작은
+건을 조회하는 문장을 작성해 보세요
+select* from locations
+where location_id>=2000
+and location_id<3000;
+
+6.  EMPLOYEES 테이블에서 FIRST_NAME 이 'David' 이고 급여가 6000 이상인 사람이 속한
+부서가 위치한 도시를 찾는 문장을 작성해 보세요 . (힌트 : 3 개의 문장이 필요함)
+
+select department_id from employees
+where first_name='David'
+and salary >=6000;
+select location_id from departments
+where department_id=80;
+select city from locations
+where location_id=2500;
+
 1. Employees 테이블의 manager_id 컬럼에는 해당 사원의 상관의 사번이 저장되어
 있습니다 . 따라서 가장 높은 직급인 사장은 이 컬럼에 값이 들어 있지 않습니다 . 사장을
 조회하는 쿼리를 작성해 보세요 .
@@ -13,6 +96,7 @@ case when commission_pct is null then salary
 when commission_pct is not null then salary+(salary*commission_pct)
 end salary
 from employees;
+(3번째 줄은 else로 처리하면 됨)
 
 3. 다음 문장을 실행하면 조회되는 로우는 몇 건일까요?
 SELECT employee_id , first_name , last_name
