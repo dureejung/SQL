@@ -1,0 +1,23 @@
+1. INITCAP, UPPER, LOWER는 영문자를 대소문자로 변환하는 함수입니다 . 다음 문장처럼
+매개변수로 한글이 입력되면 그 결과는 어떻게 될까요?
+-함수에 상관없이 같은 한글로 출력
+
+2. 다음 문자열은 보헤미안 렙소디 가사 첫 부분입니다 . 이 중에서 'fantasy?' 만
+반환하도록 SUBSTR 함수를 작성해 보세요.
+
+-select replace ('Is this the real life? Is this just fantasy?',' ','')
+from dual;
+select length ('Isthisthereallife?Isthisjustfantasy?')
+from dual;
+select substr ('Isthisthereallife?Isthisjustfantasy?',29,8)
+from dual;
+
+-select substr('Is this the real life? Is this just fantasy?',-8,8)
+from dual;
+
+-select instr('Is this the real life? Is this just fantasy?','f',1,2)
+from dual;
+select  substr ('Is this the real life? Is this just fantasy?',37,8)
+from dual;
+
+3. 현재 일자 기준 익월 1일을 반환하는 select문을 작성해 보세요.
