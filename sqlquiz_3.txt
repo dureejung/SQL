@@ -1,3 +1,5 @@
+각자 공부하면서 시간이 필요했던 부분들에 대해서 말해보는 걸로 프리뷰.
+
 1. INITCAP, UPPER, LOWER는 영문자를 대소문자로 변환하는 함수입니다 . 다음 문장처럼
 매개변수로 한글이 입력되면 그 결과는 어떻게 될까요?
 -함수에 상관없이 같은 한글로 출력
@@ -21,3 +23,54 @@ select  substr ('Is this the real life? Is this just fantasy?',37,8)
 from dual;
 
 3. 현재 일자 기준 익월 1일을 반환하는 select문을 작성해 보세요.
+-select sysdate
+,round(sysdate,'mm')
+from dual;
+
+-SELECT TRUNC(SYSDATE+7, 'MM') FROM DUAL;
+
+4. EMPLOYEES 테이블에서 사번이 110 번 이하인 사원의 입사일자가 현재일자 기준으로 몇
+개월이나 지났는지 구하는 문장을 작성해 보세요 .
+SELECT MONTHS_BETWEEN(SYSDATE,HIRE_DATE) 
+FROM employees
+WHERE EMPLOYEE_ID<=110;
+
+5. EMPLOYEES 테이블의 PHONE_NUMBER 컬럼에는 사원의 전화번호가 111.111.1111
+형태로 저장되어 있는데 , 이를 111-111-1111 로 바꿔 조회하는 문장을 작성하시오.
+ SELECT REPLACE (PHONE_NUMBER,'.','-')
+ FROM EMPLOYEES;
+
+6. 아래 그림은 LOCATIONS 테이블에서 location_id 가 2400 보다 작거나 같은 건의
+street_address 컬럼을 조회한 결과입니다 . 여기서 이 컬럼 앞부분에 있는 숫자형식을
+제거하고 오른쪽 그림처럼 조회하는 문장을 작성하시오.
+
+select substr(street_address,instr(street_address,' ')+1,20)
+from locations
+where location_id<=2400;
+
+1. 2019년 8월 20일을 기준으로 그 달의 마지막 날짜의 요일을 구하는 쿼리를 작성해 보세요.
+ SELECT TO_CHAR(LAST_DAY(TO_DATE ('20190820','YYYYMMDD')),'DAY') FROM DUAL;
+
+2. 다음 문장에서 CASE 표현식 부분을 NVL 함수로 변환해 보세요
+SELECT employee_id , first_name , last_name , salary, commission_pct
+,CASE WHEN commission_pct IS NULL THEN salary
+ELSE salary + (salary *commission_pct )
+END real_salary
+FROM employees;
+
+- SELECT employee_id , first_name , last_name , salary, commission_pct
+,NVL2(commission_pct,salary+(salary*commission_pct),salary) as real_salary
+FROM employees;
+
+3. Quiz 2 번의 문제에 있는 CASE 표현식을 이번에는 decode 함수를 사용해 동일한 결과를
+반환하도록 만들어 보세요 .
+ SELECT employee_id , first_name , last_name , salary, commission_pct
+,decode(commission_pct,NULL,salary,salary+(salary*commission_pct)) REAL_SALARY
+FROM employees;
+
+4. 2020 년 10 월 31 일은 서기가 시작된 후 몇 일이나 지났는지 계산하는 문장을 작성하시오
+
+SELECT (
+TO_NUMBER(TO_CHAR(TO_DATE('2020','YYYY'), 'YYYY'))- 1) * 365 
++ TO_NUMBER(TO_CHAR(TO_dATE('2020-10-31','YYYY-MM-DD'), 'DDD'))
+FROM DUAL;
