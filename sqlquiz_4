@@ -51,7 +51,22 @@ order by 1;
 
 6. COVID19 테이블에서 2020 년 10 월에 가장 많은 확진자가 나온 상위 5 개 국가는 어떤
 나라일까요?
+SELECT COUNTRY, NVL(SUM( new_cases ),0)
+FROM covid19
+WHERE 1=1
+AND DATES BETWEEN TO_DATE('20201001','YYYYMMDD')
+          AND TO_DATE('20201031','YYYYMMDD')
+AND COUNTRY <> 'World' --World데이터는 제외하고
+GROUP BY COUNTRY
+ORDER BY 2 DESC;
 
+*
+AND DATES BETWEEN TO_DATE('20201001','YYYYMMDD')
+          AND TO_DATE('20201031','YYYYMMDD')는
+AND TO_CHAR(DATES,'YYYYMM')=202010으로 사용해도 무방하나
+가급적 데이터를 가공하지 않는 것이 좋다.(후에 INDEX관련)
+
+          
 1. 집합 연산자를 사용해 employees 테이블에서 2001 과 2003 년에 입사한 사원의
 사원번호와 입사일자를 조회하는 쿼리를 작성해 보세요.
 select employee_id,hire_date
@@ -63,6 +78,11 @@ from employees
 where to_char(hire_date,'yyyy')=2003
 order by 2;
 
+*한 문장으로 가져오기
+select employee_id,hire_date
+from employees
+where to_char(hire_date,'yyyy') IN('2001','2003');
+
 2. employees 테이블에서 job_id 별로 급여의 합계를 구하고 , 마지막에 전체
 급여 합계를 구하는 쿼리를 UNION 연산자를 사용해 작성해 보세요
 SELECT
@@ -71,7 +91,8 @@ FROM employees
 GROUP BY
 job_id
 UNION
-SELECT '
-합계 ', SUM(salary)
+SELECT '합계', SUM(salary) --합계는 UNION실행할 때 위와 컬럼 갯수 맞춰주기 위해 임의로 설정한 문자
 FROM employees
 ORDER BY 1 ;
+
+
