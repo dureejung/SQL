@@ -69,8 +69,32 @@ group by to_char(a.order_date,'yyyy-mm')
 order by 1;
 
 
+6.분석함수를 사용해 다음과 같이 누적합계를 구하는 쿼리를 작성해 보세요 .
+SELECT b.department_id, b.department_name,
+       a.first_name || ' ' || a.last_name as emp_name,
+       a.hire_date,
+       a.salary ,
+       decode(LEAD(salary) OVER 
+       (PARTITION BY b.department_id
+        ORDER BY a.hire_date ),null,a.salary
+        ,a.salary+LEAD(salary) OVER 
+       (PARTITION BY b.department_id
+        ORDER BY a.hire_date))누적합계
+  FROM employees a,
+       departments b
+ WHERE a.department_id = b.department_id
+ ORDER BY 1,4 ;
 
-
-
-
+[정답]sum함수 사용하기!!
+SELECT b.department_id, b.department_name,
+       a.first_name || ' ' || a.last_name as emp_name,
+       a.hire_date,
+       a.salary ,
+      sum(salary)over
+      (partition by b.department_id
+      order by a.hire_date,a.salary) 누적합계
+  FROM employees a,
+       departments b
+ WHERE a.department_id = b.department_id
+ ORDER BY 1,4 ;
 
