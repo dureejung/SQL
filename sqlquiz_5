@@ -1,0 +1,76 @@
+1.  Jobs 테이블에는 min_salary 와 max_salary 란 컬럼이 있는데 , 이는 해당 job_id 에 대한
+최소와 최대급여 금액을 담고 있습니다 . Jobs 테이블과 employees 테이블을 조인하고
+사원의 급여가 최소와 최대급여 금액을 벗어난 사원이 있는지 조회하는 쿼리를 작성해
+보세요 .
+
+select a.employee_id, a.first_name||' '||a.last_name,
+a.salary,
+b.min_salary,b.max_salary
+from employees a
+join jobs b
+on a.job_id=b.job_id
+where a.salary<b.min_salary
+or a.salary>b.max_salary
+;
+
+2. 아래 외부조인 문장을 실행하면 내부조인을 한 것과 결과가 같습니다 . 왜 이런 결과가
+나왔는지 설명해 보세요 .
+SELECT
+a.employee_id , a.first_name || ' ' || a.last_name emp_names ,b.*
+FROM employees a,
+job_history b
+WHERE a.employee_id (+) = b.employee_id
+ORDER BY 1;
+
+b테이블에 속하는 데이터가 모두 내부조인 조건을 만족시키는 데이터이기 때문
+
+3. Quiz 2-2-6 번 문제인 EMPLOYEES 테이블에서 FIRST_NAME 이 'David' 이고 급여가
+6000 이상인 사람이 속한 부서가 위치한 도시를 찾는 쿼리를 3 문장이 아닌 1 문장으로 작성해
+보세요 .
+
+select c.city
+from employees a,
+departments b,
+locations c
+where a.department_id=b.department_id
+and b.location_id=c.location_id
+and a.first_name='David' 
+and a.salary>=6000;
+
+4. ORDERS , CUSTOMERS, STORES, STAFFS 테이블을 조인해 2018 년 1 월 주문 내역에
+대해 다음 결과처럼 조회하는 쿼리를 작성해 보세요 .
+SELECT
+a.order_id , a.order_date,
+b.first_name || ' ' || b.last_name customer_name,
+c.store_name,
+d.first_name || ' ' || d.last_name staff_name
+FROM orders a,
+customers b,
+stores c,
+staffs d
+WHERE
+a.order_date BETWEEN TO_DATE('2018 01 01','YYYY MM DD')
+AND TO_DATE('2018 01 31','YYYY MM DD')
+AND a.customer_id = b.customer_id
+AND a.store_id = c.store_id
+AND a.staff_id = d.staff_id
+ORDER BY 2;
+
+5. ORDERS , ORDER_ITEMS 테이블을 조인해 2018 년 월별 주문금액 합계를 조회하는
+쿼리를 ANSI 조인으로 작성해 보세요
+select to_char(a.order_date,'yyyy-mm')months,
+sum(b.quantity*b.list_price) order_amt
+from orders a, order_items b
+where a.order_id=b.order_id
+and a.order_date BETWEEN TO_DATE('2018 01 01','YYYY MM DD')
+AND TO_DATE('2018
+12 31','YYYY MM DD')
+group by to_char(a.order_date,'yyyy-mm')
+order by 1;
+
+
+
+
+
+
+
