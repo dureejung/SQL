@@ -1,0 +1,25 @@
+(같은 결과값)
+1. 인라인뷰
+
+SELECT a.employee_id
+      ,a.first_name || ' ' || a.last_name
+  FROM employees a,
+       (select department_id, 
+       department_name  dept_name
+  FROM departments)b
+ WHERE a.department_id = b.department_id
+ORDER BY 1;
+
+2. with절
+
+WITH dept AS (
+SELECT department_id, 
+       department_name  dept_name
+  FROM departments )
+SELECT a.employee_id
+      ,a.first_name || ' ' || a.last_name
+  FROM employees a,
+       dept b
+ WHERE a.department_id = b.department_id
+ORDER BY 1;
+
