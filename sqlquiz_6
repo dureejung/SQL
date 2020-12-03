@@ -1,0 +1,70 @@
+2. 다음 쿼리를 LATERAL 키워드를 사용해 같은 결과를 조회하도록 변경해 보세요
+SELECT b.department_name , loc.street_address , loc.country_name
+FROM departments b
+ ,( SELECT l.location_id , l.street_address , c.country_name
+    FROM locations l, countries c
+    WHERE l.country_id = c.country_id ) loc
+WHERE b.location_id = loc.location_id
+
+SELECT b.department_name , loc.street_address , loc.country_name
+FROM departments b
+ ,LATERAL( SELECT l.location_id , l.street_address , c.country_name
+    FROM locations l, countries c
+    WHERE l.country_id = c.country_id 
+    and b.location_id = l.location_id)loc;
+
+3. 다음 문장을 IN 대신 EXISTS 연산자를 사용해 같은 결과를 조회하도록 변경해 보세요 .
+SELECT employee_id,job_id, salary
+FROM employees
+WHERE (job_id , salary ) IN ( SELECT job_id , min_salary
+                                      FROM jobs);
+
+select employee_id, job_id, salary
+from employees a
+where exists
+(select 1
+from jobs b
+where a.job_id=b.job_id
+and a.salary=b.min_salary);
+
+4. 다음은 ANTI 조인 문장입니다 . 이 문장은 employees 테이블에 할당되지 않은 부서정보를
+조회하려는 문장인데 , 실행하면 데이터가 조회되지 않습니다 . 해당 부서정보를 조회하도록
+이 쿼리를 수정해 보세요 .
+SELECT *
+FROM departments
+WHERE department_id NOT IN
+( SELECT a.department_id
+FROM employees a);
+
+
+select *
+from departments a 
+where a.department_id not in (select department_id 
+from employees 
+where department_id is not null);
+
+
+5. covid19 테이블을 사용해 월별 , 대륙별 , 국가별 감염수와 각 국가가 속한 대륙을 기준으로
+감염수 비율을 구하는 쿼리를 작성하시오 . 서브쿼리 사용 )
+!!!!해결안됨!!!!!
+
+select to_char(a.dates,'yyyy-mm')months, a.continent, 
+a.country, a.new_cases,c.continent_cases
+from covid19 a,
+(select to_char(b.dates,'yyyy-mm'), b.continent, 
+b.country, sum(b.new_cases)continent_cases
+from covid19 b
+group by to_char(b.dates,'yyyy-mm'), b.continent, 
+b.country)c
+where a.country=c.country
+order by 1,2,3;
+
+
+
+select to_char(b.dates,'yyyy-mm'), b.continent, 
+b.country, sum(b.new_cases)continent_cases
+from covid19 b
+group by to_char(b.dates,'yyyy-mm'), b.continent, 
+b.country
+order by 1,2,3;
+
