@@ -71,3 +71,32 @@ group by to_char(b.dates,'yyyy-mm'), b.continent,
 b.country
 order by 1,2,3;
 
+6. Covid19 테이블에서 2020 년 전체 가장 많은 확진자가 나온 상위 5 개 국가를 구하는
+쿼리를 작성하시오 .
+
+SELECT *
+FROM ( SELECT country,
+NVL(SUM(new_cases ),0) cases
+FROM covid19
+WHERE to_char (dates, 'YYYY') = '2020'
+AND country <> 'World'
+GROUP BY country
+)
+ORDER BY
+cases DESC
+FETCH FIRST 5 ROWS ONLY;
+
+
+SELECT *
+FROM ( SELECT country,
+NVL(SUM(new_cases ),0) cases
+FROM covid19
+WHERE to_char (dates, 'YYYY') = '2020'
+AND country <> 'World'
+GROUP BY country
+ORDER BY 2 DESC
+)
+WHERE ROWNUM<=5;
+
+
+두 가지 모두 가능
