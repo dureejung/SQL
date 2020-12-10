@@ -1,4 +1,4 @@
-2. 다음 쿼리를 LATERAL 키워드를 사용해 같은 결과를 조회하도록 변경해 보세요
+2. 다음 쿼리를 LATERAL 키워드를 사용해 같은 결과를 조회하도록 변경해 보세요  
 SELECT b.department_name , loc.street_address , loc.country_name
 FROM departments b
  ,( SELECT l.location_id , l.street_address , c.country_name
