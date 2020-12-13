@@ -67,7 +67,7 @@ COUNTRY_ID                                            CHAR(2)
 5.  LOCATIONS 테이블에서 LOCATION_ID 값이 2000 보다 크거나 같고 3000 보다 작은
 건을 조회하는 문장을 작성해 보세요
 select* from locations
-where location_id>=2000
+where location_id>=2000 
 and location_id<3000;
 
 6.  EMPLOYEES 테이블에서 FIRST_NAME 이 'David' 이고 급여가 6000 이상인 사람이 속한
