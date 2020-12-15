@@ -11,7 +11,7 @@ select length ('Isthisthereallife?Isthisjustfantasy?')
 from dual;
 select substr ('Isthisthereallife?Isthisjustfantasy?',29,8)
 from dual;
-##맨 뒤에 8은 빼도 됨
+##맨 뒤에 8은 빼도 됨 
 
 -select substr('Is this the real life? Is this just fantasy?',-8,8)
 from dual;
