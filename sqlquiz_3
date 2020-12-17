@@ -40,7 +40,7 @@ from dual;
 개월이나 지났는지 구하는 문장을 작성해 보세요 .
 SELECT MONTHS_BETWEEN(SYSDATE,HIRE_DATE) 
 FROM employees
-WHERE EMPLOYEE_ID<=110;
+WHERE EMPLOYEE_ID<=110; 
 
 5. EMPLOYEES 테이블의 PHONE_NUMBER 컬럼에는 사원의 전화번호가 111.111.1111
 형태로 저장되어 있는데 , 이를 111-111-1111 로 바꿔 조회하는 문장을 작성하시오.
