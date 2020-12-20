@@ -19,7 +19,7 @@ alter column문은 존재하지 않음
 create table country_test(
 country_id number,
 country_name varchar2(100) not null
-);
+); 
 alter table country_test
 add constraints country_test_pk primary key(country_id);
 
